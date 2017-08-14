@@ -1,0 +1,130 @@
+﻿@model StudentAttendence.Models.Class1
+
+<br />
+<br />
+<br />
+<br />
+
+<link rel="stylesheet" href="~/css/default.css">
+<link rel="stylesheet" href="~/css/default.date.css">
+
+<div class="container">
+
+    @using (Html.BeginForm())
+    {
+        <div class="form-group">
+
+            
+            @Html.DropDownListFor(model => model.Id, Model.lab, "--Select Batch--",
+                    new { @class = "form-control",@name="batchcode" })
+
+
+            @*<select>
+                    @foreach (var item in ViewBag.batch)
+                    {
+                       <option value="@item.Id" class="form-control">@item.BatchCode</option>
+
+                    }
+                      @Html.DropDownListFor(model => model.Id, ViewBag.batch as SelectList, "--Select Batch--",
+                    new { @class = "form-control" })
+
+                </select>*@
+
+
+
+        </div>
+        <div class="form-group">
+
+
+            <label>Student Name:</label>
+            @Html.DropDownListFor(model => model.StudentId, new SelectList(" "), "--Select Student--",
+            new { @class = "form-control", @name = "StudentName" })
+            <br />
+
+            <label>Mark P/A:</label>
+            <select name="atten" class="form-control">
+                <option>Present</option>
+                <option>Absent</option>
+            </select>
+
+            
+            
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Date: </label>
+
+
+                <br />
+                <div class="col-md-10">
+
+
+                    <section class="section">
+                        <form>
+                            <fieldset>
+                                <input id="input_01"
+                                       class="datepicker form-control"
+                                       name="date"
+                                       type="text"
+                                       autofocuss
+                                       value="20 July, 2017"
+                                       data-valuee="2017-07-07">
+                            </fieldset>
+                        </form>
+                        <div id="container"></div>
+
+                    </section>
+                </div>
+            </div>
+
+                <input class="form-control" type="submit" value="Submit" />
+
+
+
+
+
+    }
+
+
+
+    
+
+</div>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+        $(document).ready(function () {
+            $("#Id").change(function () {
+                $.get("/Home/GetStdList", { Id: $("#Id").val() }, function (data) {
+                    $("#StudentId").empty();
+                    $.each(data, function (index, row) {
+                        $("#StudentId").append("<option value='" + row.StudentId + "'>" + row.StudentName + "</option>")
+                    });
+                });
+            })
+        });
+</script>
+
+<script src="~/Scripts/picker.js"></script>
+<script src="~/Scripts/picker.date.js"></script>
+<script src="~/Scripts/legacy.js"></script>
+<script type="text/javascript">
+
+        var $input = $( '.datepicker' ).pickadate({
+            formatSubmit: 'yyyy/mm/dd',
+            // min: [2015, 7, 14],
+            container: '#container',
+            // editable: true,
+            closeOnSelect: false,
+            closeOnClear: false,
+        })
+
+        var picker = $input.pickadate('picker')
+        /picker.set('select', '22 July, 2017')
+        // picker.open()
+
+        // $('button').on('click', function() {
+        //     picker.set('disable', true);
+        // });
+
+</script>
